@@ -19,7 +19,8 @@ def image_to_vector(img_path):
 
 
 '''
-wget https://m.eyeofriyadh.com/news_images/2020/01/1f75d29d39631.jpg
+import os
+os.system('wget https://m.eyeofriyadh.com/news_images/2020/01/1f75d29d39631.jpg')
 
 vector = image_to_vector('1f75d29d39631.jpg')
 '''
