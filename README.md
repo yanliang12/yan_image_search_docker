@@ -1,14 +1,15 @@
 # yan_image_search_docker
 
-```
+### setup subnetwork for the image search
+
+```bash
 docker network create --subnet=172.18.0.0/16 image_search_network
 ```
 
 
 ### start the vector search docekr
 
-```
-
+```bash
 sudo docker pull milvusdb/milvus:1.1.0-cpu-d050721-5e559c
 
 export USER=/Users/yan
@@ -36,7 +37,7 @@ sudo docker ps
 
 #### build the query service
 
-```
+```bash
 docker build -t yanliang12/yan_image_search:1.0.1 .
 
 docker run -it \
