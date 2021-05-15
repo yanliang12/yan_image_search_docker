@@ -21,4 +21,7 @@ RUN pip3 install pymilvus==1.1.0
 
 RUN python3 -c "from tensorflow.keras.applications.vgg16 import VGG16;model = VGG16(weights='imagenet')"
 RUN python3 -c "from tensorflow.keras.applications.vgg19 import VGG19;model = VGG19(weights='imagenet')"
+
+EXPOSE 19530/tcp
+
 ############Dockerfile###########
