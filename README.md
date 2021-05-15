@@ -50,9 +50,12 @@ yanliang12/yan_image_search:1.0.1
 ### code example
 
 ```python
+import numpy
 from milvus import *
-
+from os import listdir
+from os.path import isfile, join
 import yan_image_embedding
+
 
 milvus = Milvus(host='172.18.0.20', port='19530')
 
@@ -68,34 +71,20 @@ param = {'collection_name':'image', 'dimension':4096, 'index_file_size':1024, 'm
 milvus.create_collection(param)
 milvus.list_collections()
 
-
-
-image_pathes = [
-'digital14_1.png',
-'digital14_2.jpg',
-'digital14_3.jpg',
-'mbzuai_1.png',
-'mbzuai_2.jpg',
-'mbzuai_3.png',
-'mbzuai_4.jpg',
-'darkmatter1.png',
-'darkmatter2.png',
-'g421.png',
-'g423.png',
-'g422.jpg',
-'iiai1.jpg',
-'iiai2.png',
-'iiai3.png',
-]
-
+image_files = [join('images', f) for f in listdir('images') if isfile(join('images', f))]
 image_mata = {}
 
-for i in image_pathes:
-	vector = yan_image_embedding.image_to_vector(i)
-	result = milvus.insert(collection_name='image', records=[vector])
-	image_id = result[1][0]
-	image_path = i
-	image_mata[image_id] = image_path
+for i in image_files:
+	try:
+		print('\n\nextracting features from {}'.format(i))
+		vector = yan_image_embedding.image_to_vector(i)
+		print('inserting feature vector to collection')
+		result = milvus.insert(collection_name='image', records=[vector])
+		image_id = result[1][0]
+		image_path = i
+		image_mata[image_id] = image_path
+	except Exception as e:
+		print(e)
 
 milvus.count_entities(collection_name='image')
 ########build the collection#########
@@ -105,29 +94,24 @@ milvus.count_entities(collection_name='image')
 
 
 ########query similar image######
-
-queyr_image = 'digital14_3.jpg'
+queyr_image = join('images', 'ib_5.png')
 vector = yan_image_embedding.image_to_vector(queyr_image)
-
-search_param = {'nprobe': 16}
-search_result = milvus.search(collection_name='image', query_records=[vector], top_k = 100, params=search_param)
+search_result = milvus.search(collection_name='image', query_records=[vector], top_k = 10, params={'nprobe': 16})
 
 for r in search_result[1][0]:
 	print(image_mata[r.id], '\t',r.distance)
 
 '''
-digital14_3.jpg          0.0
-digital14_2.jpg          1991.7869873046875
-digital14_1.png          15433.568359375
-darkmatter1.png          18634.1796875
-mbzuai_2.jpg     20856.8984375
-mbzuai_3.png     22268.10546875
-mbzuai_1.png     25805.171875
-darkmatter2.png          27981.859375
-g422.jpg         31794.83984375
-mbzuai_4.jpg     33009.6171875
-g423.png         38055.2421875
-g421.png         50007.015625
+images/ib_5.png          0.0
+images/ib_2.jpg          31450.896484375
+images/firstrade_7.png   32310.41796875
+images/fab_4.png         33088.15234375
+images/ib_6.png          33429.1796875
+images/mbzuai_3.png      34033.0546875
+images/ib_8.png          34149.71875
+images/digital14_1.png   34365.1328125
+images/firstrade_2.jpg   35225.5703125
+images/kaust_3.png       35914.09375
 '''
 
 ########query similar image######
