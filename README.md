@@ -114,5 +114,20 @@ search_result = milvus.search(collection_name='image', query_records=[vector], t
 for r in search_result[1][0]:
 	print(image_mata[r.id], '\t',r.distance)
 
+'''
+digital14_3.jpg          0.0
+digital14_2.jpg          1991.7869873046875
+digital14_1.png          15433.568359375
+darkmatter1.png          18634.1796875
+mbzuai_2.jpg     20856.8984375
+mbzuai_3.png     22268.10546875
+mbzuai_1.png     25805.171875
+darkmatter2.png          27981.859375
+g422.jpg         31794.83984375
+mbzuai_4.jpg     33009.6171875
+g423.png         38055.2421875
+g421.png         50007.015625
+'''
+
 ########query similar image######
 ```
