@@ -49,7 +49,7 @@ yanliang12/yan_image_search:1.0.1
 
 ### code example
 
-####extracting featurse and insert them to the database
+#### extracting featurse and insert them to the database
 
 ```python
 import numpy
@@ -93,7 +93,7 @@ milvus.count_entities(collection_name='image')
 ```
 
 
-####query images by searching the similar features
+#### query images by searching the similar features
 
 ```python
 import numpy
