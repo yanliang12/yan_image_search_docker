@@ -49,6 +49,8 @@ yanliang12/yan_image_search:1.0.1
 
 ### code example
 
+####extracting featurse and insert them to the database
+
 ```python
 import numpy
 from milvus import *
@@ -88,9 +90,20 @@ for i in image_files:
 
 milvus.count_entities(collection_name='image')
 ########build the collection#########
+```
 
 
+####query images by searching the similar features
 
+```python
+import numpy
+from milvus import *
+from os import listdir
+from os.path import isfile, join
+import yan_image_embedding
+
+
+milvus = Milvus(host='172.18.0.20', port='19530')
 
 
 ########query similar image######
